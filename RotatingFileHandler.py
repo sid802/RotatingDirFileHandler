@@ -9,12 +9,13 @@ class RotatingFileHandler(handlers.RotatingFileHandler):
     Custom RotatingFileHandler which allows saving rolled over files
     to be saved in another directory
     """
-    def __init__(self, filename, target_dir='.', *args, **kwargs):
+    def __init__(self, filename, target_dir='.', create_dir=True,  *args, **kwargs):
         super(RotatingFileHandler, self).__init__(filename, *args, **kwargs)
         abs_path = os.path.abspath(target_dir)
         if not os.path.isdir(abs_path):
-            dir_created = self._try_create_dir(abs_path)
-            if not dir_created:
+            if create_dir:
+                os.makedirs(abs_path)
+            else:
                 raise Exception("You didn't enter a valid target directory!: <{0}>".format(target_dir))
         self.target_dir = abs_path
         self.filename = os.path.basename(filename)
@@ -40,18 +41,3 @@ class RotatingFileHandler(handlers.RotatingFileHandler):
              os.rename(os.path.join(self.target_dir, self.baseFilename), dfn)
         if not self.delay:
             self.stream = self._open()
-
-    def _try_create_dir(self, target_dir):
-        """
-        :param target_dir: Absolute path to wanted dir
-        Prompts the user if he want to create this dir
-        :return: boolean - directory has been created or not
-        """
-        user_input = raw_input("The directory `{0}` doesn't exist, do you want it to be created? Y/N: ".format(target_dir))
-        while user_input.lower() not in ['y', 'n']:
-            user_input = raw_input("The directory `{0}` doesn't exist, do you want it to be created? Y/N: ".format(target_dir))
-
-        if user_input == 'y':
-            os.makedirs(target_dir)
-            return True
-        return False
