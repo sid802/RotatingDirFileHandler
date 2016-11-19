@@ -1,7 +1,7 @@
 # RotatingFileHander
 
 Internal RotatingFileHandler from Python's `logging` module.
-This class does exactky the same but puts the rolled over logger files in a target directory.
+This class does exactly the same but puts the rolled over logger files in a target directory.
 
 Usage example (Full example in example.py file):
 
