@@ -4,7 +4,7 @@ __author__ = 'Sid'
 from logging import handlers
 import os
 
-class MyRotatingFileHandler(handlers.RotatingFileHandler):
+class RotatingFileHandler(handlers.RotatingFileHandler):
     """
     Custom RotatingFileHandler which allows saving rolled over files
     to be saved in another directory
